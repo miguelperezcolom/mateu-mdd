@@ -1,3 +1,7 @@
+# Version 0.0.9
+
+Branch used at Quonext. For backwards compatibility only
+
 # Mateu MDD
 
 Mateu MDD is a framework for creating awesome web applications from java.

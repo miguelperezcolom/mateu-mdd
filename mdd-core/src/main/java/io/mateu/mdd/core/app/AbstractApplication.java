@@ -265,7 +265,7 @@ public abstract class AbstractApplication implements App {
 
     public String getBaseUrl() {
         String u = System.getProperty("baseurl", MDDUI.get() != null?MDDUI.get().getBaseUrl():"");
-        if (u.endsWith(MDDUI.get().getAdaptedUIRootPath())) u = u.substring(0, u.lastIndexOf(MDDUI.get().getAdaptedUIRootPath()));
+        if (MDDUI.get() != null && u.endsWith(MDDUI.get().getAdaptedUIRootPath())) u = u.substring(0, u.lastIndexOf(MDDUI.get().getAdaptedUIRootPath()));
         return u;
     };
 
