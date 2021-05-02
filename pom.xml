@@ -4,7 +4,7 @@
 
   <groupId>io.mateu</groupId>
   <artifactId>mdd-parent</artifactId>
-  <version>0.0.15</version>
+  <version>0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Mateu MDD</name>
@@ -20,22 +20,7 @@
   </properties>
 
   <modules>
-    <module>mdd-util-extended</module>
-    <module>mdd-sharedinterfaces</module>
-    <module>mdd-annotationprocessing</module>
-    <module>mdd-core</module>
-    <module>mdd-core14</module>
-    <module>mdd-jpa</module>
-    <module>mdd-addon</module>
-    <module>mdd-vaadin</module>
-    <module>mdd-se</module>
-    <module>mdd-showcase</module>
-    <module>lombok-tester</module>
-    <module>mdd-springboot</module>
-    <module>mdd-fakespringboot</module>
-    <module>mdd-j2ee</module>
-      <module>mdd-fakeui</module>
-      <module>mdd-quarkus</module>
+
   </modules>
 
   <dependencies>
