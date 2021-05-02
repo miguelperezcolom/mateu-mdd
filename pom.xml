@@ -20,7 +20,7 @@
   </properties>
 
   <modules>
-
+    <module>addon</module>
   </modules>
 
   <dependencies>
