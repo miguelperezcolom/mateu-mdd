@@ -3,7 +3,7 @@ package org.vaadin.example.addon;
 import io.mateu.mdd.annotations.MateuBuilder;
 import io.mateu.mdd.components.CrudComponent;
 import io.mateu.mdd.components.FormComponent;
-import org.vaadin.example.addon.model.Persona;
+import org.vaadin.example.addon.model.Person;
 
 /**
  * To be injected or created using Mateu.getInstance()
@@ -11,8 +11,8 @@ import org.vaadin.example.addon.model.Persona;
 @MateuBuilder
 public interface MyBuilder {
 
-    CrudComponent<Persona> getCrudForPerson();
+    CrudComponent<Person> getCrudForPerson();
 
-    FormComponent<Persona> getFormForPerson();
+    FormComponent<Person> getFormForPerson();
 
 }

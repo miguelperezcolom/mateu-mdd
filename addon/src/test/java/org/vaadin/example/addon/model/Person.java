@@ -3,7 +3,7 @@ package org.vaadin.example.addon.model;
 
 import java.time.LocalDate;
 
-public class Persona {
+public class Person {
 
     private String name;
 
