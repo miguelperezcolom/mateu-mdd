@@ -1,8 +1,10 @@
 package io.mateu.mdd.annotationProcessor;
 
 import com.google.auto.service.AutoService;
-import com.google.common.base.Strings;
 import com.sun.tools.javac.code.Symbol;
+import com.sun.tools.javac.code.Type;
+import io.mateu.mdd.components.CrudComponent;
+import io.mateu.mdd.components.FormComponent;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
@@ -33,6 +35,8 @@ public class MateuBuilderAnnotationProcessor  extends AbstractProcessor {
                 String pkgName = generatedFullClassName.substring(0, generatedFullClassName.lastIndexOf("."));
                 String generatedClassName = generatedFullClassName.substring(generatedFullClassName.lastIndexOf(".") + 1);
 
+
+
                 JavaFileObject builderFile = null;
                 try {
                     builderFile = processingEnv.getFiler().createSourceFile(generatedFullClassName);
@@ -54,8 +58,10 @@ public class MateuBuilderAnnotationProcessor  extends AbstractProcessor {
                             if (enclosedElement instanceof Symbol.MethodSymbol) {
                                 Symbol.MethodSymbol methodSymbol = (Symbol.MethodSymbol) enclosedElement;
 
+                                String implementationClassName = createComponentClass(processingEnv, methodSymbol.getReturnType());
+
                                 out.println("  public " + methodSymbol.getReturnType().toString() + " " + methodSymbol.getSimpleName() + "() {");
-                                out.println("    return null;");
+                                out.println("    return new " + implementationClassName + "();");
                                 out.println("  }");
 
                             }
@@ -77,4 +83,26 @@ public class MateuBuilderAnnotationProcessor  extends AbstractProcessor {
 
         return true;
     }
+
+    private String createComponentClass(ProcessingEnvironment processingEnv, Type returnType) {
+            Type.ClassType classType = (Type.ClassType) returnType;
+            String className = classType.toString();
+            className = className.substring(0, className.indexOf("<"));
+            if (CrudComponent.class.getName().equalsIgnoreCase(className)) {
+                return createCrudClass(processingEnv, returnType);
+            } else if (FormComponent.class.getName().equalsIgnoreCase(className)) {
+                return createFormClass(processingEnv, returnType);
+            } else {
+                return null;
+            }
+    }
+
+    private String createFormClass(ProcessingEnvironment processingEnv, Type returnType) {
+        return new FormClassCreator().createFormClass(processingEnv, returnType);
+    }
+
+    private String createCrudClass(ProcessingEnvironment processingEnv, Type returnType) {
+        return new CrudClassCreator().createFormClass(processingEnv, returnType);
+    }
+
 }

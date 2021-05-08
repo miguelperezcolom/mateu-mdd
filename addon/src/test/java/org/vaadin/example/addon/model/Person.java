@@ -1,6 +1,8 @@
 package org.vaadin.example.addon.model;
 
 
+import io.mateu.mdd.annotations.Action;
+
 import java.time.LocalDate;
 
 public class Person {
@@ -44,4 +46,10 @@ public class Person {
     public void setRegistered(boolean registered) {
         this.registered = registered;
     }
+
+    @Action
+    public void test() {
+        System.out.println("Hola test!");
+    }
+
 }
