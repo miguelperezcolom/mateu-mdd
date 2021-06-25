@@ -67,6 +67,7 @@ public class ElementParser {
 
     private Method createMethod(ProcessingEnvironment processingEnv, RoundEnvironment roundEnv, ExecutableElement ee) {
         return new Method(
+                si es ella misma, entonces entra en bucle
                 getParsedClass(processingEnv, roundEnv, ee.getReturnType())
                 , ee.getSimpleName().toString()
                 , Lists.newArrayList()
@@ -76,7 +77,7 @@ public class ElementParser {
 
     private ParsedClass getParsedClass(ProcessingEnvironment processingEnv, RoundEnvironment roundEnv, TypeMirror returnType) {
         TypeElement typeElement = getTypeElement(processingEnv, returnType);
-        if (typeElement != null) {
+        if (typeElement != null && !Class.class.getName().equals(typeElement.getQualifiedName().toString())) {
             List<TypeElement> generics = extractGenerics(processingEnv, roundEnv, returnType);
             return parse(processingEnv, roundEnv, typeElement, generics);
         } else {
