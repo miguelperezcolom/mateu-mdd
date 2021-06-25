@@ -4,6 +4,8 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 public class ParsedClass extends Annotated {
 
     private String packageName;
@@ -16,12 +18,22 @@ public class ParsedClass extends Annotated {
 
     public ParsedClass(List<Annotation> annotations, String className, List<Field> fields, List<Method> methods, List<ParsedClass> typeArguments) {
         super(annotations);
-        this.packageName = className.substring(0, className.lastIndexOf('.'));
+        this.packageName = className.contains(".") ? className.substring(0, className.lastIndexOf('.')) : "";
         this.className = className;
-        this.simpleClassName = className.substring(className.lastIndexOf('.') + 1);
+        this.simpleClassName = className.contains(".") ? className.substring(className.lastIndexOf('.') + 1) : className;
         this.fields = fields;
         this.methods = methods;
         this.typeArguments = typeArguments;
+    }
+
+    public ParsedClass(String className) {
+        super(Lists.newArrayList());
+        this.packageName = className.contains(".") ? className.substring(0, className.lastIndexOf('.')) : "";
+        this.className = className;
+        this.simpleClassName = className.contains(".") ? className.substring(className.lastIndexOf('.') + 1) : className;
+        this.fields = Lists.newArrayList();
+        this.methods = Lists.newArrayList();
+        this.typeArguments = Lists.newArrayList();
     }
 
     public String getPackageName() {
