@@ -1,6 +1,7 @@
 package io.mateu.core;
 
 import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import io.mateu.annotations.Action;
 import io.mateu.fieldProcessors.FieldProcessors;
@@ -8,7 +9,7 @@ import io.mateu.model.ParsedClass;
 
 public class FormClassCreator {
 
-    public String createFormClass(PrintWriter out, ParsedClass type) {
+    public String createFormClass(PrintWriter file, ParsedClass type) {
         ParsedClass modelType = type.getTypeArguments().get(0);
         String modelClassName = modelType.getClassName();
         String modelSimpleClassName = modelType.getSimpleClassName();
@@ -23,7 +24,8 @@ public class FormClassCreator {
         String generatedClassName = generatedFullClassName.substring(generatedFullClassName.lastIndexOf(".") + 1);
 
 
-
+        StringWriter sw = new StringWriter();
+        PrintWriter out = new PrintWriter(sw);
 
         out.println("package " + pkgName + ";");
         out.println("import " + modelClassName + ";");
@@ -47,14 +49,13 @@ public class FormClassCreator {
 
         out.println();
 
-        out.println("public class " + generatedClassName + " extends io.mateu.mdd.components.FormComponent<" + modelSimpleClassName + "> {");
+        out.println("public class " + generatedClassName + " extends io.mateu.components.FormComponent<" + modelSimpleClassName + "> {");
 
         out.println("    Binder binder = new Binder(" + modelSimpleClassName + ".class);\n" +
                 "\n" +
                 "    public " + generatedClassName + "() {\n" +
                 "\n" +
                 "        " + modelSimpleClassName + " initialData = new " + modelSimpleClassName + "();\n" +
-                "        initialData.setName(\"Mateu\");\n" +
                 "\n" +
                 "        addClassName(\"form\");\n" +
                 "\n" +
@@ -106,8 +107,9 @@ public class FormClassCreator {
         out.println("");
         out.println("}");
 
-
-
+        System.out.println(sw.toString());
+        file.println(sw.toString());
+        file.close();
 
         return generatedFullClassName;
     }

@@ -36,10 +36,10 @@ public class MateuClassProcessor {
     }
 
     private String createFormClass(ParsedClass type) throws IOException {
-        return new FormClassCreator().createFormClass(writerProvider.create(type.getCleanClassName() + "Impl.java"), type);
+        return new FormClassCreator().createFormClass(writerProvider.create(type.getTypeArguments().get(0).getClassName() + "FormImpl"), type);
     }
 
     private String createCrudClass(ParsedClass type) throws IOException {
-        return new FormClassCreator().createFormClass(writerProvider.create(type.getCleanClassName() + "Impl.java"), type);
+        return new FormClassCreator().createFormClass(writerProvider.create(type.getTypeArguments().get(0).getClassName() + "FormImpl"), type);
     }
 }

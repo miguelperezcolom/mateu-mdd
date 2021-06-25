@@ -5,8 +5,9 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.TypeMirror;
+import javax.lang.model.type.*;
 import javax.lang.model.util.ElementScanner8;
+import javax.lang.model.util.SimpleTypeVisitor8;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import io.mateu.model.ParsedClass;
 
 public class ElementParser {
 
-    public ParsedClass parse(ProcessingEnvironment processingEnv, RoundEnvironment roundEnv, TypeElement typeElement) {
+    public ParsedClass parse(ProcessingEnvironment processingEnv, RoundEnvironment roundEnv, TypeElement typeElement, List<TypeElement> generics) {
         //todo: implementar
         return new ParsedClass(typeElement.getAnnotationMirrors().stream().map(m -> {
             try {
@@ -32,10 +33,10 @@ public class ElementParser {
             }
             return null;
         }).filter(x -> x != null).collect(Collectors.toList()),
-                "org.example.MiFormulario",
+                typeElement.getQualifiedName().toString(),
                 Lists.newArrayList(),
                 parseMethods(processingEnv, roundEnv, typeElement),
-                parseTypeArguments(processingEnv, roundEnv, typeElement));
+                generics != null ? generics.stream().map(type -> parse(processingEnv, roundEnv, type, null)).collect(Collectors.toList()) : parseTypeArguments(processingEnv, roundEnv, typeElement));
     }
 
     private List<ParsedClass> parseTypeArguments(ProcessingEnvironment processingEnv, RoundEnvironment roundEnv, TypeElement typeElement) {
@@ -43,7 +44,7 @@ public class ElementParser {
         typeElement.getTypeParameters().forEach(tp -> {
             TypeElement element = getTypeElement(processingEnv, tp.asType());
             if (element != null) {
-                typeArguments.add(new ElementParser().parse(processingEnv, roundEnv, element));
+                typeArguments.add(new ElementParser().parse(processingEnv, roundEnv, element, null));
             }
         });
         return typeArguments;
@@ -76,10 +77,54 @@ public class ElementParser {
     private ParsedClass getParsedClass(ProcessingEnvironment processingEnv, RoundEnvironment roundEnv, TypeMirror returnType) {
         TypeElement typeElement = getTypeElement(processingEnv, returnType);
         if (typeElement != null) {
-            return parse(processingEnv, roundEnv, typeElement);
+            List<TypeElement> generics = extractGenerics(processingEnv, roundEnv, returnType);
+            return parse(processingEnv, roundEnv, typeElement, generics);
         } else {
             return new ParsedClass(returnType.toString());
         }
+    }
+
+    private List<TypeElement> extractGenerics(ProcessingEnvironment processingEnv, RoundEnvironment roundEnv, TypeMirror returnType) {
+        List<TypeElement> generics = new ArrayList<>();
+        returnType.accept(new SimpleTypeVisitor8<Void, Void>()
+        {
+            @Override
+            public Void visitDeclared(DeclaredType declaredType, Void v)
+            {
+                List<? extends TypeMirror> typeArguments = declaredType.getTypeArguments();
+                typeArguments.forEach(type -> {
+                    generics.add(getTypeElement(processingEnv, type));
+                });
+                return null;
+            }
+            @Override
+            public Void visitPrimitive(PrimitiveType primitiveType, Void v)
+            {
+                return null;
+            }
+            @Override
+            public Void visitArray(ArrayType arrayType, Void v)
+            {
+                return null;
+            }
+            @Override
+            public Void visitTypeVariable(TypeVariable typeVariable, Void v)
+            {
+                return null;
+            }
+            @Override
+            public Void visitError(ErrorType errorType, Void v)
+            {
+                return null;
+            }
+            @Override
+            protected Void defaultAction(TypeMirror typeMirror, Void v)
+            {
+                return null;
+            }
+        }, null);
+
+        return generics;
     }
 
     private TypeElement getTypeElement(ProcessingEnvironment processingEnvironment, TypeMirror returnType) {

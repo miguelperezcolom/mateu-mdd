@@ -14,6 +14,16 @@ import java.util.List;
 
 import com.google.testing.compile.Compilation;
 import com.google.testing.compile.JavaFileObjects;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.textfield.IntegerField;
+import com.vaadin.flow.component.textfield.NumberField;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.ValidationException;
 import io.mateu.annotationProcessor.MateuBuilderAnnotationProcessor;
 import io.mateu.annotations.MateuBuilder;
 import io.mateu.components.FormComponent;
@@ -53,6 +63,16 @@ public class FormGenerationTest {
         locations.add(new File(MateuBuilder.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
         locations.add(new File(FormComponent.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
         locations.add(new File(HorizontalLayout.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
+        locations.add(new File(Button.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
+        locations.add(new File(Component.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
+        locations.add(new File(Checkbox.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
+        locations.add(new File(DatePicker.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
+        locations.add(new File(Notification.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
+        locations.add(new File(NumberField.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
+        locations.add(new File(IntegerField.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
+        locations.add(new File(TextField.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
+        locations.add(new File(Binder.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
+        locations.add(new File(ValidationException.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
         return locations;
     }
 

@@ -47,7 +47,7 @@ public class MateuBuilderAnnotationProcessor  extends AbstractProcessor {
                         JavaFileObject builderFile = processingEnv.getFiler().createSourceFile(path);
                         PrintWriter out = new PrintWriter(builderFile.openWriter());
                         return out;
-                    }).process(new ElementParser().parse(processingEnv, roundEnv, typeElement));
+                    }).process(new ElementParser().parse(processingEnv, roundEnv, typeElement, null));
                 }
             }
         }
