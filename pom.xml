@@ -165,6 +165,7 @@
         <configuration>
           <sourcepath>src/main/java</sourcepath>
           <source>8</source>
+          <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
         </configuration>
         <executions>
           <execution>
