@@ -29,44 +29,51 @@ public class FormClassCreatorTest
         System.out.println(sw.toString());
     }
 
-    private ParsedClass createFormParsedClass() throws AnnotationFormatException {
+    private ParsedClass createFormParsedClass() {
         ParsedClass type = new ParsedClass(
+                new HashMap<>(),
                 Lists.newArrayList(),
                 FormComponent.class.getName(),
                 Lists.newArrayList(),
                 Lists.newArrayList(),
-                Lists.newArrayList(createParsedClass())
+                () -> Lists.newArrayList(createParsedClass())
         );
         return type;
     }
 
-    private ParsedClass createParsedClass() throws AnnotationFormatException {
+    private ParsedClass createParsedClass() {
         ParsedClass type = new ParsedClass(
+                new HashMap<>(),
                 Lists.newArrayList(),
                 "org.example.MiFormulario",
                 Lists.newArrayList(
-                        new Field(new ParsedClass(String.class.getName()), "name", Lists.newArrayList())
-                        , new Field(new ParsedClass(int.class.getName()), "age", Lists.newArrayList())
-                        , new Field(new ParsedClass(double.class.getName()), "rating", Lists.newArrayList())
-                        , new Field(new ParsedClass(boolean.class.getName()), "subscribed", Lists.newArrayList())
+                        new Field(new ParsedClass(new HashMap<>(), String.class.getName()), "name", Lists.newArrayList())
+                        , new Field(new ParsedClass(new HashMap<>(), int.class.getName()), "age", Lists.newArrayList())
+                        , new Field(new ParsedClass(new HashMap<>(), double.class.getName()), "rating", Lists.newArrayList())
+                        , new Field(new ParsedClass(new HashMap<>(), boolean.class.getName()), "subscribed", Lists.newArrayList())
                 ),
                 Lists.newArrayList(
                         new Method(
-                                new ParsedClass(void.class.getName())
+                                new ParsedClass(new HashMap<>(), void.class.getName())
                                 , "doSomething"
                                 , Lists.newArrayList(createActionAnnotation())
                                 , AccessLevel.Public
                         )
                 ),
-                Lists.newArrayList()
+                () -> Lists.newArrayList()
         );
         return type;
     }
 
-    private Action createActionAnnotation() throws AnnotationFormatException {
+    private Action createActionAnnotation() {
         Map<String, Object> annotationParameters = new HashMap<>();
         //annotationParameters.put("name", "someName");
-        Action myAnnotation = TypeFactory.annotation(Action.class, annotationParameters);
+        Action myAnnotation = null;
+        try {
+            myAnnotation = TypeFactory.annotation(Action.class, annotationParameters);
+        } catch (AnnotationFormatException e) {
+            e.printStackTrace();
+        }
         return myAnnotation;
     }
 }

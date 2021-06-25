@@ -36,6 +36,8 @@ public class MateuBuilderAnnotationProcessor  extends AbstractProcessor {
         for (TypeElement annotation : annotations) {
             Set<? extends Element> annotatedElements = roundEnv.getElementsAnnotatedWith(annotation);
 
+            ElementParser elementParser = new ElementParser(processingEnv, roundEnv);
+
             for (Element e : annotatedElements) {
                 if (e instanceof TypeElement) {
                     TypeElement typeElement = (TypeElement) e;
@@ -47,7 +49,7 @@ public class MateuBuilderAnnotationProcessor  extends AbstractProcessor {
                         JavaFileObject builderFile = processingEnv.getFiler().createSourceFile(path);
                         PrintWriter out = new PrintWriter(builderFile.openWriter());
                         return out;
-                    }).process(new ElementParser().parse(processingEnv, roundEnv, typeElement, null));
+                    }).process(elementParser.parse(typeElement, null));
                 }
             }
         }

@@ -3,6 +3,8 @@ package io.mateu.model;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 
 import com.google.common.collect.Lists;
 
@@ -16,14 +18,15 @@ public class ParsedClass extends Annotated {
     //todo: Type.ClassType modelType = (Type.ClassType) classType.getTypeArguments().get(0);
     private List<ParsedClass> typeArguments = new ArrayList<>();
 
-    public ParsedClass(List<Annotation> annotations, String className, List<Field> fields, List<Method> methods, List<ParsedClass> typeArguments) {
+    public ParsedClass(Map<String, ParsedClass> cache, List<Annotation> annotations, String className, List<Field> fields, List<Method> methods, Supplier<List<ParsedClass>> typeArguments) {
         super(annotations);
         this.packageName = getPackageName(className);
         this.className = className;
         this.simpleClassName = getSimpleClassName(className);
         this.fields = fields;
         this.methods = methods;
-        this.typeArguments = typeArguments;
+        this.typeArguments = typeArguments.get();
+        cache.put(className, this);
     }
 
     private String getSimpleClassName(String className) {
@@ -40,7 +43,7 @@ public class ParsedClass extends Annotated {
         return className.contains("<") ? className.substring(0, className.indexOf('<')) : className;
     }
 
-    public ParsedClass(String className) {
+    public ParsedClass(Map<String, ParsedClass> cache, String className) {
         super(Lists.newArrayList());
         this.packageName = getPackageName(className);
         this.className = className;
@@ -48,6 +51,7 @@ public class ParsedClass extends Annotated {
         this.fields = Lists.newArrayList();
         this.methods = Lists.newArrayList();
         this.typeArguments = Lists.newArrayList();
+        cache.put(className, this);
     }
 
     public String getPackageName() {

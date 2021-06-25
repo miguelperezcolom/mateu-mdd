@@ -11,7 +11,9 @@ import javax.lang.model.util.SimpleTypeVisitor8;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.Lists;
@@ -21,71 +23,88 @@ import io.mateu.model.ParsedClass;
 
 public class ElementParser {
 
-    public ParsedClass parse(ProcessingEnvironment processingEnv, RoundEnvironment roundEnv, TypeElement typeElement, List<TypeElement> generics) {
-        //todo: implementar
-        return new ParsedClass(typeElement.getAnnotationMirrors().stream().map(m -> {
-            try {
-                Class<? extends Annotation> annotationClass = (Class<? extends Annotation>) Class.forName(m.getAnnotationType().toString());
-                Annotation annotation = typeElement.getAnnotation(annotationClass);
-                return annotation;
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }).filter(x -> x != null).collect(Collectors.toList()),
-                typeElement.getQualifiedName().toString(),
-                Lists.newArrayList(),
-                parseMethods(processingEnv, roundEnv, typeElement),
-                generics != null ? generics.stream().map(type -> parse(processingEnv, roundEnv, type, null)).collect(Collectors.toList()) : parseTypeArguments(processingEnv, roundEnv, typeElement));
+    private final ProcessingEnvironment processingEnv;
+    private final RoundEnvironment roundEnv;
+
+    Map<String, ParsedClass> cache = new HashMap<>();
+
+    public ElementParser(ProcessingEnvironment processingEnv, RoundEnvironment roundEnv) {
+        this.processingEnv = processingEnv;
+        this.roundEnv = roundEnv;
     }
 
-    private List<ParsedClass> parseTypeArguments(ProcessingEnvironment processingEnv, RoundEnvironment roundEnv, TypeElement typeElement) {
+    public ParsedClass parse(TypeElement typeElement, List<TypeElement> generics) {
+        //todo: implementar
+        ParsedClass parsedClass = cache.get(typeElement.getQualifiedName().toString());
+        if (parsedClass == null) {
+            parsedClass = new ParsedClass(cache, typeElement.getAnnotationMirrors().stream().map(m -> {
+                try {
+                    Class<? extends Annotation> annotationClass = (Class<? extends Annotation>) Class.forName(m.getAnnotationType().toString());
+                    Annotation annotation = typeElement.getAnnotation(annotationClass);
+                    return annotation;
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }).filter(x -> x != null).collect(Collectors.toList()),
+                    typeElement.getQualifiedName().toString(),
+                    Lists.newArrayList(),
+                    parseMethods(typeElement),
+                    () -> generics != null ? generics.stream().map(type -> parse(type, null)).collect(Collectors.toList()) : parseTypeArguments(typeElement));
+        }
+        return parsedClass;
+    }
+
+    private List<ParsedClass> parseTypeArguments(TypeElement typeElement) {
         List<ParsedClass> typeArguments = new ArrayList<>();
         typeElement.getTypeParameters().forEach(tp -> {
-            TypeElement element = getTypeElement(processingEnv, tp.asType());
+            TypeElement element = getTypeElement(tp.asType());
             if (element != null) {
-                typeArguments.add(new ElementParser().parse(processingEnv, roundEnv, element, null));
+                typeArguments.add(parse(element, null));
             }
         });
         return typeArguments;
     }
 
 
-    private List<Method> parseMethods(ProcessingEnvironment processingEnv, RoundEnvironment roundEnv, TypeElement typeElement) {
+    private List<Method> parseMethods(TypeElement typeElement) {
         List<Method> methods = new ElementScanner8<List<Method>, TypeElement>() {
 
             private List<Method> methods = new ArrayList<>();
 
             @Override
             public List<Method> visitExecutable(ExecutableElement e, TypeElement typeElement) {
-                methods.add(createMethod(processingEnv, roundEnv, e));
+                methods.add(createMethod(e));
                 return methods;
             }
         }.visit(typeElement);
         return methods;
     }
 
-    private Method createMethod(ProcessingEnvironment processingEnv, RoundEnvironment roundEnv, ExecutableElement ee) {
+    private Method createMethod(ExecutableElement ee) {
         return new Method(
-                si es ella misma, entonces entra en bucle
-                getParsedClass(processingEnv, roundEnv, ee.getReturnType())
+                getParsedClass(ee.getReturnType())
                 , ee.getSimpleName().toString()
                 , Lists.newArrayList()
                 , AccessLevel.Public
         );
     }
 
-    private ParsedClass getParsedClass(ProcessingEnvironment processingEnv, RoundEnvironment roundEnv, TypeMirror returnType) {
-        TypeElement typeElement = getTypeElement(processingEnv, returnType);
+    private ParsedClass getParsedClass(TypeMirror returnType) {
+        TypeElement typeElement = getTypeElement(returnType);
         if (typeElement != null && !Class.class.getName().equals(typeElement.getQualifiedName().toString())) {
-            List<TypeElement> generics = extractGenerics(processingEnv, roundEnv, returnType);
-            return parse(processingEnv, roundEnv, typeElement, generics);
+            List<TypeElement> generics = extractGenerics(returnType);
+            return parse(typeElement, generics);
         } else {
-            return new ParsedClass(returnType.toString());
+            ParsedClass parsedClass = cache.get(returnType.toString());
+            if (parsedClass == null) {
+                parsedClass = new ParsedClass(cache, returnType.toString());
+            }
+            return parsedClass;
         }
     }
 
-    private List<TypeElement> extractGenerics(ProcessingEnvironment processingEnv, RoundEnvironment roundEnv, TypeMirror returnType) {
+    private List<TypeElement> extractGenerics(TypeMirror returnType) {
         List<TypeElement> generics = new ArrayList<>();
         returnType.accept(new SimpleTypeVisitor8<Void, Void>()
         {
@@ -94,7 +113,7 @@ public class ElementParser {
             {
                 List<? extends TypeMirror> typeArguments = declaredType.getTypeArguments();
                 typeArguments.forEach(type -> {
-                    generics.add(getTypeElement(processingEnv, type));
+                    generics.add(getTypeElement(type));
                 });
                 return null;
             }
@@ -128,8 +147,8 @@ public class ElementParser {
         return generics;
     }
 
-    private TypeElement getTypeElement(ProcessingEnvironment processingEnvironment, TypeMirror returnType) {
-        Element element = processingEnvironment.getTypeUtils().asElement(returnType);
+    private TypeElement getTypeElement(TypeMirror returnType) {
+        Element element = processingEnv.getTypeUtils().asElement(returnType);
         return element != null && element instanceof TypeElement ? (TypeElement) element : null;
     }
 
