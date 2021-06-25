@@ -45,12 +45,14 @@ public class FormClassCreatorTest
                 Lists.newArrayList(),
                 "org.example.MiFormulario",
                 Lists.newArrayList(
-                        new Field(String.class.toString(), "name", Lists.newArrayList())
-                        , new Field(int.class.toString(), "age", Lists.newArrayList())
+                        new Field(new ParsedClass(String.class.getName()), "name", Lists.newArrayList())
+                        , new Field(new ParsedClass(int.class.getName()), "age", Lists.newArrayList())
+                        , new Field(new ParsedClass(double.class.getName()), "rating", Lists.newArrayList())
+                        , new Field(new ParsedClass(boolean.class.getName()), "subscribed", Lists.newArrayList())
                 ),
                 Lists.newArrayList(
                         new Method(
-                                new ParsedClass(void.class.toString())
+                                new ParsedClass(void.class.getName())
                                 , "doSomething"
                                 , Lists.newArrayList(createActionAnnotation())
                                 , AccessLevel.Public

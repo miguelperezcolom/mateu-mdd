@@ -5,16 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Field extends Annotated {
-    private final String type;
+    private final ParsedClass type;
     private final String name;
 
-    public Field(String type, String name, List<Annotation> annotations) {
+    public Field(ParsedClass type, String name, List<Annotation> annotations) {
         super(annotations);
         this.type = type;
         this.name = name;
     }
 
-    public String getType() {
+    public ParsedClass getType() {
         return type;
     }
 

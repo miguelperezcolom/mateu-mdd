@@ -3,6 +3,7 @@ package io.mateu.core;
 import java.io.PrintWriter;
 
 import io.mateu.annotations.Action;
+import io.mateu.fieldProcessors.FieldProcessors;
 import io.mateu.model.ParsedClass;
 
 public class FormClassCreator {
@@ -36,6 +37,7 @@ public class FormClassCreator {
                 "import com.vaadin.flow.component.notification.Notification;\n" +
                 "import com.vaadin.flow.component.orderedlayout.HorizontalLayout;\n" +
                 "import com.vaadin.flow.component.orderedlayout.VerticalLayout;\n" +
+                "import com.vaadin.flow.component.textfield.NumberField;\n" +
                 "import com.vaadin.flow.component.textfield.IntegerField;\n" +
                 "import com.vaadin.flow.component.textfield.TextField;\n" +
                 "import com.vaadin.flow.data.binder.Binder;\n" +
@@ -69,13 +71,7 @@ public class FormClassCreator {
 
         out.println("    private void addFields() {");
         modelType.getFields().forEach(f -> {
-            System.out.println(f.getName());
-            out.println(                        "        {\n" +
-                    "            TextField field;\n" +
-                    "            add(field = new TextField(\"" + f.getName() + "\"));\n" +
-                    "            binder.forField(field).bind(\"" + f.getName() + "\");\n" +
-                    "        }\n"
-            );
+            out.println(FieldProcessors.process(f));
         });
         out.println("    }");
 
