@@ -18,19 +18,33 @@ public class ParsedClass extends Annotated {
 
     public ParsedClass(List<Annotation> annotations, String className, List<Field> fields, List<Method> methods, List<ParsedClass> typeArguments) {
         super(annotations);
-        this.packageName = className.contains(".") ? className.substring(0, className.lastIndexOf('.')) : "";
+        this.packageName = getPackageName(className);
         this.className = className;
-        this.simpleClassName = className.contains(".") ? className.substring(className.lastIndexOf('.') + 1) : className;
+        this.simpleClassName = getSimpleClassName(className);
         this.fields = fields;
         this.methods = methods;
         this.typeArguments = typeArguments;
     }
 
+    private String getSimpleClassName(String className) {
+        className = cleanClassName(className);
+        return className.contains(".") ? className.substring(className.lastIndexOf('.') + 1) : className;
+    }
+
+    private String getPackageName(String className) {
+        className = cleanClassName(className);
+        return className.contains(".") ? className.substring(0, className.lastIndexOf('.')) : "";
+    }
+
+    private String cleanClassName(String className) {
+        return className.contains("<") ? className.substring(0, className.indexOf('<')) : className;
+    }
+
     public ParsedClass(String className) {
         super(Lists.newArrayList());
-        this.packageName = className.contains(".") ? className.substring(0, className.lastIndexOf('.')) : "";
+        this.packageName = getPackageName(className);
         this.className = className;
-        this.simpleClassName = className.contains(".") ? className.substring(className.lastIndexOf('.') + 1) : className;
+        this.simpleClassName = getSimpleClassName(className);
         this.fields = Lists.newArrayList();
         this.methods = Lists.newArrayList();
         this.typeArguments = Lists.newArrayList();
@@ -60,5 +74,9 @@ public class ParsedClass extends Annotated {
 
     public List<ParsedClass> getTypeArguments() {
         return typeArguments;
+    }
+
+    public String getCleanClassName() {
+        return cleanClassName(className);
     }
 }

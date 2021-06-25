@@ -19,7 +19,7 @@ public abstract class Annotated {
     public <T> T getAnnotation(Class<T> actionClass) {
         T a = null;
         for (Annotation annotation : annotations) {
-            if (actionClass.equals(annotation.getClass())) {
+            if (actionClass.isAssignableFrom(annotation.getClass())) {
                 a = (T) annotation;
                 break;
             }

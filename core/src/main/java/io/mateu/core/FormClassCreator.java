@@ -84,7 +84,7 @@ public class FormClassCreator {
                 out.println(                        "\n" +
                         "        actionsBar.add(new Button(\"" + m.getName() + "\", e -> {\n" +
                         "            if (binder.validate().isOk()) {\n" +
-                        "                Person p = new Person();\n" +
+                        "                " + modelSimpleClassName + " p = new " + modelSimpleClassName + "();\n" +
                         "                try {\n" +
                         "                    binder.writeBean(p);\n" +
                         "                } catch (ValidationException validationException) {\n" +

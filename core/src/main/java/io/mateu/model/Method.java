@@ -25,6 +25,6 @@ public class Method extends Annotated {
     }
 
     public ParsedClass getReturnType() {
-        return null;
+        return returnType;
     }
 }

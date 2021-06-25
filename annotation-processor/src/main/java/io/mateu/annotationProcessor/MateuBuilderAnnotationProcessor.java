@@ -17,9 +17,20 @@ import io.mateu.annotationProcessor.parser.ElementParser;
 import io.mateu.core.MateuClassProcessor;
 
 @SupportedAnnotationTypes({"io.mateu.annotations.MateuBuilder"})
-@SupportedSourceVersion(SourceVersion.RELEASE_8)
 @AutoService(Processor.class)
 public class MateuBuilderAnnotationProcessor  extends AbstractProcessor {
+
+    @Override
+    public SourceVersion getSupportedSourceVersion() {
+        SupportedSourceVersion ssv = this.getClass().getAnnotation(SupportedSourceVersion.class);
+        SourceVersion sv = null;
+        if (ssv == null) {
+            return SourceVersion.latest();
+        } else {
+            return ssv.value();
+        }
+    }
+
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         for (TypeElement annotation : annotations) {
@@ -36,7 +47,7 @@ public class MateuBuilderAnnotationProcessor  extends AbstractProcessor {
                         JavaFileObject builderFile = processingEnv.getFiler().createSourceFile(path);
                         PrintWriter out = new PrintWriter(builderFile.openWriter());
                         return out;
-                    }).process(new ElementParser().parse(roundEnv, typeElement));
+                    }).process(new ElementParser().parse(processingEnv, roundEnv, typeElement));
                 }
             }
         }

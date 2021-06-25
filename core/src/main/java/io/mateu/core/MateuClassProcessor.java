@@ -23,7 +23,7 @@ public class MateuClassProcessor {
     }
 
     private void createComponentClass(Method method) {
-        String className = method.getReturnType().getSimpleClassName();
+        String className = method.getReturnType().getCleanClassName();
         try {
             if (CrudComponent.class.getName().equalsIgnoreCase(className)) {
                 createCrudClass(method.getReturnType());
@@ -36,10 +36,10 @@ public class MateuClassProcessor {
     }
 
     private String createFormClass(ParsedClass type) throws IOException {
-        return new FormClassCreator().createFormClass(writerProvider.create(type.getClassName() + "Impl.java"), type);
+        return new FormClassCreator().createFormClass(writerProvider.create(type.getCleanClassName() + "Impl.java"), type);
     }
 
     private String createCrudClass(ParsedClass type) throws IOException {
-        return new FormClassCreator().createFormClass(writerProvider.create(type.getClassName() + "Impl.java"), type);
+        return new FormClassCreator().createFormClass(writerProvider.create(type.getCleanClassName() + "Impl.java"), type);
     }
 }

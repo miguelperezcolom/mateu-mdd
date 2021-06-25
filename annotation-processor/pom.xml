@@ -32,6 +32,20 @@
       <version>${version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.google.testing.compile</groupId>
+      <artifactId>compile-testing</artifactId>
+      <version>0.19</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.vaadin</groupId>
+      <artifactId>vaadin-core</artifactId>
+      <version>20.0.3</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
 
