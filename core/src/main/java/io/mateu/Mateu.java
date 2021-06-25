@@ -1,4 +1,4 @@
-package io.mateu.mdd;
+package io.mateu;
 
 public class Mateu {
 

@@ -1,8 +1,8 @@
 package org.vaadin.example.addon;
 
-import io.mateu.mdd.annotations.MateuBuilder;
-import io.mateu.mdd.components.CrudComponent;
-import io.mateu.mdd.components.FormComponent;
+import io.mateu.annotations.MateuBuilder;
+import io.mateu.components.CrudComponent;
+import io.mateu.components.FormComponent;
 import org.vaadin.example.addon.model.Person;
 
 /**

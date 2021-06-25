@@ -1,7 +1,7 @@
 package org.vaadin.example.addon.model;
 
 
-import io.mateu.mdd.annotations.Action;
+import io.mateu.annotations.Action;
 
 import java.time.LocalDate;
 

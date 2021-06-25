@@ -13,7 +13,7 @@
     <description>###Project Name###</description>
 
     <properties>
-        <vaadin.version>19.0.0.alpha5</vaadin.version>
+        <vaadin.version>20.0.3</vaadin.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -115,18 +115,20 @@
         </dependency>
 
 
-        <dependency>
-            <groupId>com.google.auto.service</groupId>
-            <artifactId>auto-service</artifactId>
-            <version>1.0-rc7</version>
-            <scope>compile</scope>
-        </dependency>
+
 
         <dependency>
             <groupId>com.github.olivergondza</groupId>
             <artifactId>maven-jdk-tools-wrapper</artifactId>
             <version>0.1</version>
             <scope>compile</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.mateu</groupId>
+            <artifactId>annotation-processor</artifactId>
+            <version>${version}</version>
         </dependency>
 
     </dependencies>

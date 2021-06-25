@@ -21,6 +21,9 @@
 
   <modules>
     <module>addon</module>
+      <module>annotations</module>
+    <module>core</module>
+    <module>annotation-processor</module>
   </modules>
 
   <dependencies>
@@ -173,7 +176,7 @@
         </executions>
       </plugin>
 
-
+<!--
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
@@ -187,14 +190,14 @@
             </goals>
             <configuration>
               <gpgArguments>
-                <arg>--pinentry-mode</arg>
+                <arg>-pinentry-mode</arg>  todo: dos guiones delante
                 <arg>loopback</arg>
               </gpgArguments>
             </configuration>
           </execution>
         </executions>
       </plugin>
-
+-->
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>nexus-staging-maven-plugin</artifactId>
