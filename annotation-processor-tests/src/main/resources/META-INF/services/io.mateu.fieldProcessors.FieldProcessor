@@ -1,0 +1,4 @@
+io.mateu.fieldProcessors.BooleanFieldProcessor
+io.mateu.fieldProcessors.DoubleFieldProcessor
+io.mateu.fieldProcessors.IntFieldProcessor
+io.mateu.fieldProcessors.StringFieldProcessor

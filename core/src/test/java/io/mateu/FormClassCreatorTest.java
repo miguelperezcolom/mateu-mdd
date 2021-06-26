@@ -31,7 +31,6 @@ public class FormClassCreatorTest
 
     private ParsedClass createFormParsedClass() {
         ParsedClass type = new ParsedClass(
-                new HashMap<>(),
                 Lists.newArrayList(),
                 FormComponent.class.getName(),
                 Lists.newArrayList(),
@@ -43,18 +42,17 @@ public class FormClassCreatorTest
 
     private ParsedClass createParsedClass() {
         ParsedClass type = new ParsedClass(
-                new HashMap<>(),
                 Lists.newArrayList(),
                 "org.example.MiFormulario",
                 Lists.newArrayList(
-                        new Field(new ParsedClass(new HashMap<>(), String.class.getName()), "name", Lists.newArrayList())
-                        , new Field(new ParsedClass(new HashMap<>(), int.class.getName()), "age", Lists.newArrayList())
-                        , new Field(new ParsedClass(new HashMap<>(), double.class.getName()), "rating", Lists.newArrayList())
-                        , new Field(new ParsedClass(new HashMap<>(), boolean.class.getName()), "subscribed", Lists.newArrayList())
+                        new Field(new ParsedClass(String.class.getName()), "name", Lists.newArrayList())
+                        , new Field(new ParsedClass(int.class.getName()), "age", Lists.newArrayList())
+                        , new Field(new ParsedClass(double.class.getName()), "rating", Lists.newArrayList())
+                        , new Field(new ParsedClass(boolean.class.getName()), "subscribed", Lists.newArrayList())
                 ),
                 Lists.newArrayList(
                         new Method(
-                                new ParsedClass(new HashMap<>(), void.class.getName())
+                                new ParsedClass(void.class.getName())
                                 , "doSomething"
                                 , Lists.newArrayList(createActionAnnotation())
                                 , AccessLevel.Public

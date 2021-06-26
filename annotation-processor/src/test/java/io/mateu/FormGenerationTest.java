@@ -36,7 +36,6 @@ import static com.google.testing.compile.Compiler.javac;
 
 public class FormGenerationTest {
 
-    @Test
     public void test1() throws IOException, URISyntaxException {
         URL source = getResourceURL("./src/test/java/",
                 "io/mateu/modelo/MiRepo.java");

@@ -3,10 +3,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
+    <parent>
         <groupId>io.mateu</groupId>
+        <artifactId>mdd-parent</artifactId>
+        <version>flow-SNAPSHOT</version>
+    </parent>
     <artifactId>mdd-addon</artifactId>
-        <version>0.1-SNAPSHOT</version>
 
 
     <name>Add-on for Vaadin</name>
@@ -14,12 +16,7 @@
 
     <properties>
         <vaadin.version>20.0.3</vaadin.version>
-
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8
-        </project.reporting.outputEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
     <organization>
         <name>###author###</name>

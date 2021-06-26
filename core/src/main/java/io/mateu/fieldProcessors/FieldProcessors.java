@@ -9,7 +9,7 @@ import io.mateu.model.Field;
 
 public class FieldProcessors {
 
-    private static List<FieldProcessor> processors = new ArrayList<>();
+    public static List<FieldProcessor> processors = new ArrayList<>();
 
     static {
         ServiceLoader<FieldProcessor> loader = ServiceLoader

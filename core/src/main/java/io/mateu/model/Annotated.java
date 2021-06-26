@@ -16,6 +16,10 @@ public abstract class Annotated {
         return annotations;
     }
 
+    public void setAnnotations(List<Annotation> annotations) {
+        this.annotations = annotations;
+    }
+
     public <T> T getAnnotation(Class<T> actionClass) {
         T a = null;
         for (Annotation annotation : annotations) {
@@ -26,5 +30,4 @@ public abstract class Annotated {
         }
         return a;
     }
-
 }

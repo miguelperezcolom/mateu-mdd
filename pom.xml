@@ -4,7 +4,7 @@
 
   <groupId>io.mateu</groupId>
   <artifactId>mdd-parent</artifactId>
-  <version>0.1-SNAPSHOT</version>
+  <version>flow-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Mateu MDD</name>
@@ -12,7 +12,6 @@
   <url>http://maven.apache.org</url>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <vaadin.version>8.11.2</vaadin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -24,6 +23,7 @@
       <module>annotations</module>
     <module>core</module>
     <module>annotation-processor</module>
+      <module>annotation-processor-tests</module>
   </modules>
 
   <dependencies>
@@ -34,27 +34,6 @@
       <scope>test</scope>
     </dependency>
 
-
-
-    <!-- 11 -->
-    <!--
-    <dependency>
-      <groupId>com.sun.xml.bind</groupId>
-      <artifactId>jaxb-impl</artifactId>
-      <version>2.4.0-b180830.0438</version>
-    </dependency>
-    <dependency>
-      <groupId>com.sun.xml.ws</groupId>
-      <artifactId>jaxws-rt</artifactId>
-      <version>2.3.1</version>
-      <type>pom</type>
-    </dependency>
-    <dependency>
-      <groupId>com.sun.xml.ws</groupId>
-      <artifactId>rt</artifactId>
-      <version>2.3.1</version>
-    </dependency>
-    -->
   </dependencies>
 
   <distributionManagement>

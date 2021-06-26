@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -8,35 +7,32 @@
     <artifactId>mdd-parent</artifactId>
     <version>flow-SNAPSHOT</version>
   </parent>
-  <artifactId>annotation-processor</artifactId>
+  <artifactId>annotation-processor-tests</artifactId>
 
-  <name>annotation-processor</name>
+  <name>annotation-processor-tests</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
 
   <dependencies>
-
     <dependency>
-      <groupId>io.mateu</groupId>
-      <artifactId>core</artifactId>
-      <version>${version}</version>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>com.google.testing.compile</groupId>
-      <artifactId>compile-testing</artifactId>
-      <version>0.19</version>
-      <scope>test</scope>
+      <groupId>io.mateu</groupId>
+      <artifactId>annotation-processor</artifactId>
+      <version>${version}</version>
     </dependency>
 
     <dependency>
       <groupId>com.vaadin</groupId>
       <artifactId>vaadin-core</artifactId>
       <version>20.0.3</version>
-      <scope>test</scope>
     </dependency>
-
   </dependencies>
 
 
