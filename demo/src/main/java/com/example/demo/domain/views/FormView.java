@@ -10,6 +10,6 @@ import com.vaadin.flow.router.Route;
 public class FormView extends Div {
 
     public FormView() {
-        add(Mateu.getInstance(MyBuilder.class).getFormForPerson());
+        add(Mateu.getInstance(MyBuilder.class).getFormForPersonWithConsumers());
     }
 }

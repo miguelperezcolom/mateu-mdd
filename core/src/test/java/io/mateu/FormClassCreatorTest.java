@@ -56,6 +56,7 @@ public class FormClassCreatorTest
                                 , "doSomething"
                                 , Lists.newArrayList(createActionAnnotation())
                                 , AccessLevel.Public
+                                , Lists.newArrayList()
                         )
                 ),
                 () -> Lists.newArrayList()

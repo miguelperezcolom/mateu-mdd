@@ -9,6 +9,6 @@ import com.vaadin.flow.router.Route;
 public class FormViewWithSupplierAndConsumer extends Div {
 
     public FormViewWithSupplierAndConsumer() {
-        add(Mateu.getInstance(MyBuilder.class).getFormForPerson(p -> System.out.println("saved"), p -> System.out.println("processed")));
+        add(Mateu.getInstance(MyBuilder.class).getFormForPersonWithConsumers(p -> System.out.println("saved"), p -> System.out.println("processed")));
     }
 }

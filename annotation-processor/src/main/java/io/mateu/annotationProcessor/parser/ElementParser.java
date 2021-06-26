@@ -22,6 +22,7 @@ import com.google.common.collect.Lists;
 import io.mateu.model.AccessLevel;
 import io.mateu.model.Field;
 import io.mateu.model.Method;
+import io.mateu.model.Parameter;
 import io.mateu.model.ParsedClass;
 
 public class ElementParser {
@@ -112,6 +113,24 @@ public class ElementParser {
                 , ee.getSimpleName().toString()
                 , Lists.newArrayList()
                 , AccessLevel.Public
+                , createParameters(ee)
+        );
+    }
+
+    private List<Parameter> createParameters(ExecutableElement ee) {
+        List<Parameter> parameters = new ArrayList<>();
+        ee.getParameters().forEach(ve -> {
+            parameters.add(createParameter(ve));
+        });
+        return parameters;
+    }
+
+    private Parameter createParameter(VariableElement e) {
+        System.out.println("creating parameter " + e.getEnclosingElement().getSimpleName().toString() + "." + e.getSimpleName().toString());
+        return new Parameter(
+                parse(e.asType())
+                , e.getSimpleName().toString()
+                , Lists.newArrayList()
         );
     }
 

@@ -22,11 +22,11 @@ public interface MyBuilder {
 
     CrudComponent<Person> getCrudForPerson();
 
-    FormComponent<Person> getFormForPerson();
+    FormComponent<Person> getFormForPersonWithConsumers();
 
     FormComponent<Person> getEditorForPerson(Supplier<Person> loader, Consumer<Person> save);
 
-    FormComponent<Person> getFormForPerson(Consumer<Person> save, Consumer<Person> process);
+    FormComponent<Person> getFormForPersonWithConsumers(Consumer<Person> save, Consumer<Person> process);
 
     @Jpql("select p.name from Person p")
     CrudComponent<Person> getCrudForPersonFromJpqlAnnotation();

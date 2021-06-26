@@ -19,6 +19,15 @@ public class MateuClassProcessor {
     public void process(ParsedClass type) {
         if (type.getAnnotation(MateuBuilder.class) != null) {
             type.getMethods().forEach(this::createComponentClass);
+            writeBuilderImpl(type);
+        }
+    }
+
+    private void writeBuilderImpl(ParsedClass type) {
+        try {
+            new BuilderImpleWriter().write(writerProvider.create(type.getClassName() + "Impl"), type);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
